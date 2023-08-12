@@ -9,7 +9,7 @@ DELIMITER $
 CREATE PROCEDURE ComputeAverageWeightedScoreForUser(IN usr_id INT)
 -- begin procedure calculations
 BEGIN
-    DECLARE weight_average INT;
+    DECLARE weight_average FLOAT;
     DECLARE total_weight_for_user INT;
     
     SELECT SUM(weight) FROM corrections
