@@ -24,7 +24,7 @@ def main() -> None:
     # print the status check
     print(f'{status_count} status check')
 
-    print("IPs")
+    print("IPs:")
 
     # carry out aggregate on the collection
     # create the pipeline
