@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """ scripts that prints nginx logs stats mongo db """
 from pymongo import MongoClient
-from typing import List
-from pymongo.database import Database
 
 
 def main() -> None:
     """ Main funtion for the script algorithm
     """
-    client: MongoClient = MongoClient('mongodb://127.0.0.1:27017')
-    logs_collection: Database = client.logs.nginx
+    client = MongoClient('mongodb://127.0.0.1:27017')
+    logs_collection = client.logs.nginx
     # print the number of documents in the collection
     print(f'{logs_collection.count_documents({})} logs')
     # print the Methods
@@ -17,7 +15,7 @@ def main() -> None:
     # get the status
     status_count: int = logs_collection.count_documents({"method": "GET",
                                                          "path": "/status"})
-    methods: List[str] = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
     # loop through the methods
     for method in methods:
         method_count: int = logs_collection.count_documents({"method": method})
