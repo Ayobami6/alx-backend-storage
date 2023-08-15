@@ -5,7 +5,7 @@ from pymongo.collection import Collection
 from typing import List
 
 
-def top_students(mongo_collection: Collection) -> list:
+def top_students(mongo_collection):
     """ get the top students
 
     Args:
@@ -15,7 +15,7 @@ def top_students(mongo_collection: Collection) -> list:
         list: list of documents
     """
     # set the aggregrate pipeline, i.e arrays of stages
-    pipeline: List[dict] = [
+    pipeline = [
         # project stage
         {"$project": {"name": "$name",
                       "averageScore": {"$avg": "$topics.score"}}},
@@ -24,6 +24,6 @@ def top_students(mongo_collection: Collection) -> list:
 
 
     ]
-    result: list = list(mongo_collection.aggregate(pipeline))
+    result = list(mongo_collection.aggregate(pipeline))
 
     return result
