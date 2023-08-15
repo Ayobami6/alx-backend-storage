@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 """ Python function that returns all students sorted by average score """
 
-from pymongo.collection import Collection
-from typing import List
-
 
 def top_students(mongo_collection):
     """ get the top students
