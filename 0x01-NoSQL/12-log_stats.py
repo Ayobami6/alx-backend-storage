@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """ scripts that prints nginx logs stats mongo db """
-
 from pymongo import MongoClient
 from typing import List
 from pymongo.database import Database
 
 
 def main() -> None:
-    """ main function """
+    """ Main funtion for the script algorithm
+    """
     client: MongoClient = MongoClient('mongodb://127.0.0.1:27017')
     logs_collection: Database = client.logs.nginx
     # print the number of documents in the collection
