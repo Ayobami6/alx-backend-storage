@@ -23,8 +23,8 @@ def set_cache(func: Callable) -> Callable:
             return cached.decode('utf-8')
         count = "count:{}".format(url)
         page = func(url)
-        storage.set(key, page)
         storage.incr(count)
+        storage.set(key, page)
         storage.expire(key, 10)
         return page
     return wrapper
