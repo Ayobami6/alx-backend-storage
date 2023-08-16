@@ -97,10 +97,3 @@ class Cache:
         """
         result = self._redis.get(key)
         return int(result.decode("utf-8"))
-
-
-cache = Cache()
-cache.store("foo")
-cache.store("bar")
-cache.store(42)
-replay(cache.store)
