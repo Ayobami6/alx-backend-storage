@@ -17,7 +17,7 @@ def set_cache(func: Callable) -> Callable:
     def wrapper(url):
         """ Wrapper function
         """
-        key = f"{func.__qualname__}:{url}"
+        key = f"visited:{url}"
         cached = storage.get(key)
         if cached:
             return cached.decode('utf-8')
