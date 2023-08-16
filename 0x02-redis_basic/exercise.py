@@ -45,7 +45,7 @@ def call_history(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(fn: Callable):
+def replay(fn: Callable) -> None:
     """ Display the history of calls of a particular function
     """
     r = redis.Redis()
@@ -54,7 +54,6 @@ def replay(fn: Callable):
     inputs = r.lrange(f"{key}:inputs", 0, -1)
     outputs = r.lrange(f"{key}:outputs", 0, -1)
     print("{} was called {} times:".format(key, count))
-    print(inputs)
     for i, o in zip(inputs, outputs):
         print("{}(*{}) -> {}".format(key, i.decode("utf-8"),
                                      o.decode("utf-8")))
