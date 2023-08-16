@@ -38,11 +38,26 @@ def call_history(method: Callable) -> Callable:
         """
         input_args = str(args)
         key = method.__qualname__
-        self._redis.rpush(key + ":inpust", input_args)
+        self._redis.rpush(key + ":inputs", input_args)
         output = str(method(self, *args, **kwargs))
-        self._redis.rpush(key + ":output", output)
+        self._redis.rpush(key + ":outputs", output)
         return output
     return wrapper
+
+
+def replay(fn: Callable):
+    """ Display the history of calls of a particular function
+    """
+    r = redis.Redis()
+    key = fn.__qualname__
+    count = r.get(key).decode("utf-8")
+    inputs = r.lrange(f"{key}:inputs", 0, -1)
+    outputs = r.lrange(f"{key}:outputs", 0, -1)
+    print("{} was called {} times:".format(key, count))
+    print(inputs)
+    for i, o in zip(inputs, outputs):
+        print("{}(*{}) -> {}".format(key, i.decode("utf-8"),
+                                     o.decode("utf-8")))
 
 
 class Cache:
@@ -82,3 +97,10 @@ class Cache:
         """
         result = self._redis.get(key)
         return int(result.decode("utf-8"))
+
+
+cache = Cache()
+cache.store("foo")
+cache.store("bar")
+cache.store(42)
+replay(cache.store)
