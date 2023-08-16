@@ -2,7 +2,7 @@
 """ python redis practice scripts """
 import redis
 from uuid import uuid4
-from typing import Union
+from typing import Union, Optional, Callable
 
 
 class Cache:
@@ -17,3 +17,26 @@ class Cache:
         key: str = str(uuid4())  # Generate a unique key
         self._redis.set(key, data)  # Store the data in Redis
         return key  # Return the key for later retrieval
+
+    def get(self, key: str, fn: Optional[Callable] = None) \
+            -> Union[str, bytes, int, float]:
+        """ Get a value from Redis and convert it to the desired format
+        """
+        # get the data from redis
+        data = self._redis.get(key)
+        # if a function was passed, apply it to the data
+        if fn:
+            data = fn(data)
+        return data
+
+    def get_str(self, key: str) -> str:
+        """ Convert data to str
+        """
+        result = self._redis.get(key)
+        return str(result.decode("utf-8"))
+
+    def get_int(self, key: str) -> int:
+        """ Convert data to int
+        """
+        result = self._redis.get(key)
+        return int(result.decode("utf-8"))
